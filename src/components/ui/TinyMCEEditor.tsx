@@ -23,13 +23,13 @@ function TinyMCEEditor({
   const [isClient, setIsClient] = useState(false);
 
   console.log("Editor content:", content);
-  
+
   // Check if the component is mounted on the client side
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const handleEditorChange = (value : any) => {
+  const handleEditorChange = (value: any) => {
     setContent(value);
     if (onChange) {
       onChange(value);
@@ -55,24 +55,15 @@ function TinyMCEEditor({
       init={{
         height: 300,
         menubar: true,
-        plugins: [
-          'lists', 
-          'link', 
-          'autolink',
-          'help', 
-          'wordcount'
-        ],
+        plugins: ["lists", "link", "autolink", "help", "wordcount"],
         toolbar:
-        "undo redo | formatselect | " +
-        "bold italic | bullist numlist | " +
-        "link | removeformat | help",
+          "undo redo | formatselect | " +
+          "bold italic | bullist numlist | " +
+          "link | removeformat | help",
         content_style:
           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         placeholder: placeholder,
         min_height: height,
-        disabled: disabled,
-
-        
       }}
     />
   );

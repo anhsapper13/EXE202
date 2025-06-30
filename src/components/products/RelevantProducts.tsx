@@ -20,7 +20,7 @@ const RelevantProducts: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const response: ApiResponse<PaginatedResponse<IProduct>> = await ProductService.getAllProducts({ page: 1, limit: 10 });
+        const response = await ProductService.getAllProducts({ page: 1, limit: 10 });
         const items = Array.isArray(response.data.items) ? response.data.items : [];
         setProducts(items);
       } catch (err) {

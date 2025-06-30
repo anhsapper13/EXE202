@@ -19,6 +19,7 @@ import HotDiscussions from "@/components/forum/HotDiscussions";
 import TopMembers from "@/components/forum/TopMembers";
 import StartDiscussion from "@/components/forum/create-discussion/StartDiscussion";
 // import ChatWidget from "@/components/forum/ChatWidget";
+import { listQuestions } from "./listQuestions";
 
 const listCard = [
   {
@@ -58,75 +59,6 @@ const listCard = [
     title: "News & Announcements",
     description: "Get latest news and updates",
     color: "#AFF981",
-  },
-];
-
-export const listQuestions  = [
-  {
-    ques_id: "1",
-    sender: "John Doe",
-    sender_avatar: "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg",
-    date: "2023-10-01",
-    title: "How to take care of my pet?",
-    question: "I need some tips on how to take care of my pet.",
-    tags: ["pet care", "tips"],
-    view_number: 100,
-    answer_number: 5,
-  },
-  {
-    ques_id: "2",
-    sender: "Jane Smith",
-    sender_avatar: "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg",
-    date: "2023-10-02",
-    title: "Best food for dogs?",
-    question: "What is the best food for dogs?",
-    tags: ["dog", "food"],
-    view_number: 200,
-    answer_number: 10,
-  },
-  {
-    ques_id: "3",
-    sender: "John Doe",
-    sender_avatar: "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg",
-    date: "2023-10-01",
-    title: "How to take care of my pet?",
-    question: "I need some tips on how to take care of my pet.",
-    tags: ["pet care", "tips"],
-    view_number: 100,
-    answer_number: 5,
-  },
-  {
-    ques_id: "4",
-    sender: "Jane Smith",
-    sender_avatar: "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg",
-    date: "2023-10-02",
-    title: "Best food for dogs?",
-    question: "What is the best food for dogs?",
-    tags: ["dog", "food"],
-    view_number: 200,
-    answer_number: 10,
-  },
-  {
-    ques_id: "5",
-    sender: "John Doe",
-    sender_avatar: "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg",
-    date: "2023-10-01",
-    title: "How to take care of my pet?",
-    question: "I need some tips on how to take care of my pet.",
-    tags: ["pet care", "tips"],
-    view_number: 100,
-    answer_number: 5,
-  },
-  {
-    ques_id: "6",
-    sender: "Jane Smith",
-    sender_avatar: "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg",
-    date: "2023-10-02",
-    title: "Best food for dogs?",
-    question: "What is the best food for dogs?",
-    tags: ["dog", "food"],
-    view_number: 200,
-    answer_number: 10,
   },
 ];
 

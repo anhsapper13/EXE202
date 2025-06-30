@@ -55,9 +55,8 @@ export default function CartItem({
     } catch (error) {
       // Revert optimistic update by refetching
       onRefetch();
-      toast.error(
-        (error as AxiosError).response?.data?.message || "Failed to remove item"
-      );
+      console.log("Error removing cart item:", error);
+      
     }
   };
 
@@ -87,10 +86,8 @@ export default function CartItem({
       // Revert optimistic update
       onUpdateCartItem(id, quantity);
       setUpdatedQuantity(quantity);
-      toast.error(
-        (error as AxiosError).response?.data?.message ||
-          "Failed to update quantity"
-      );
+     console.log("Error updating cart item:", error);
+     
     } finally {
       setIsUpdating(false);
     }
