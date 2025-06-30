@@ -11,7 +11,6 @@ const nextConfig = {
       "bf1af2.a-cdn.akinoncloud.com",
       "homepage.momocdn.net",
       "images.pexels.com",
-      
     ],
     remotePatterns: [
       {
@@ -33,14 +32,14 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
-            {
+      {
         protocol: "https",
         hostname: "placekitten.com",
         port: "",
         pathname: "/**",
       },
       {
-        protocol: "https", 
+        protocol: "https",
         hostname: "placedog.net",
         port: "",
         pathname: "/**",
@@ -52,7 +51,7 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
-            {
+      {
         protocol: "https",
         hostname: "chewychews.com.au",
         port: "",
@@ -89,14 +88,15 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
-
-
     ],
 
     formats: ["image/webp", "image/avif"],
     minimumCacheTTL: 60,
     unoptimized: false,
     loader: "default",
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 };
 

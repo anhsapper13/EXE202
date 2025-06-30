@@ -16,7 +16,6 @@ const MemberRow: React.FC<MemberProps> = ({
   avatar,
   username,
   points,
-  badge,
 }) => {
   return (
     <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors">

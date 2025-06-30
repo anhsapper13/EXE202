@@ -2,6 +2,7 @@
 import React from "react";
 import { Eye, MessageSquare, Clock } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export interface CardQuestionProps {
   ques_id: string;
@@ -79,10 +80,12 @@ const CardQuestion: React.FC<CardQuestionProps> = ({
 
             {/* Sender info */}
             <div className="flex items-center mt-2">
-              <img
+              <Image
                 src={sender_avatar}
                 alt={sender}
                 className="w-8 h-8 rounded-full object-cover mr-2"
+                width={32}
+                height={32}
               />
               <span className="text-sm font-medium text-gray-700">
                 {sender}

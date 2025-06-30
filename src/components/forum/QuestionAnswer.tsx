@@ -173,7 +173,7 @@ const QuestionAnswer: React.FC<QuestionAnswerProps> = (props) => {
   const renderUserInfoCard = (): React.ReactNode => (
     <div className="mt-6 flex justify-end">
       <div className="bg-blue-50 p-3 rounded-lg flex items-center gap-3 max-w-xs">
-        <img
+        <Image
           src={user?.profilePic || "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg"}
           alt={user?.name}
           className="w-12 h-12 rounded-md object-cover border border-gray-300"
@@ -296,6 +296,8 @@ const QuestionAnswer: React.FC<QuestionAnswerProps> = (props) => {
                     src={answerProps.user?.profilePic || '/default-avatar.png'}
                     alt="User avatar"
                     className="w-10 h-10 rounded-full"
+                    width={40}
+                    height={40}
                   />
                   <div className="flex-1">
                     <TinyMCEEditor

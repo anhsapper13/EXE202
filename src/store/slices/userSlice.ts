@@ -22,7 +22,7 @@ export const login = createAsyncThunk(
     async (credentials: { email: string; password: string }, { rejectWithValue }) => {
         try {
             const response = await postApi('/auth/login', credentials)
-            const { accessToken, refreshToken } = response.data
+            const { accessToken } = response.data
             console.log("Check accessToken", accessToken);
             
             localStorage.setItem('accessToken', accessToken)
@@ -67,7 +67,7 @@ const userSlice = createSlice({
                 state.isLoading = true
                 state.error = null
             })
-            .addCase(login.fulfilled, (state, action) => {
+            .addCase(login.fulfilled, (state) => {
                 state.status = 'succeeded'
                 state.isLoading = false
                 state.isAuthenticated = true
