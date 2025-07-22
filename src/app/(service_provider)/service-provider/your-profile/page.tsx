@@ -14,7 +14,7 @@ import {
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import type { UploadProps } from "antd";
+import type { FormInstance, UploadProps } from "antd";
 import {
   Avatar,
   Button,
@@ -31,7 +31,7 @@ import {
   Typography,
   Upload,
 } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -41,7 +41,9 @@ const UserProfile: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [avatarLoading, setAvatarLoading] = useState(false);
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<UpdateUserProfileRequest>();
+
+  const formRef = useRef(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -50,7 +52,13 @@ const UserProfile: React.FC = () => {
         const response = await UserService.getUserProfile();
         const userData = response.data.data || response.data;
         setUser(userData as User);
-        form.setFieldsValue(userData);
+
+        // Delay until form rendered
+        if (formRef.current) {
+          form.setFieldsValue(userData);
+        } else {
+          setTimeout(() => form.setFieldsValue(userData), 0);
+        }
       } catch (error) {
         console.error("Error fetching user profile:", error);
         message.error("Failed to fetch profile data");
@@ -58,7 +66,7 @@ const UserProfile: React.FC = () => {
         setLoading(false);
       }
     };
-    fetchUserProfile()
+    fetchUserProfile();
   }, [form]);
 
   const handleUpdateProfile = async (values: UpdateUserProfileRequest) => {
@@ -217,6 +225,7 @@ const UserProfile: React.FC = () => {
                   layout="vertical"
                   onFinish={handleUpdateProfile}
                   initialValues={user}
+                  ref={formRef}
                 >
                   <Row gutter={16}>
                     <Col span={12}>
@@ -330,7 +339,6 @@ const UserProfile: React.FC = () => {
                           <HomeOutlined /> Address
                         </>
                       }
-                      span={2}
                     >
                       {user.address || "Not provided"}
                     </Descriptions.Item>
@@ -351,7 +359,6 @@ const UserProfile: React.FC = () => {
                           <DollarOutlined /> Balance
                         </>
                       }
-                      span={2}
                     >
                       <Text strong style={{ color: "#52c41a" }}>
                         {parseFloat(String(user.balance || 0)).toLocaleString()}{" "}

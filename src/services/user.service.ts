@@ -1,5 +1,5 @@
 import { BaseService } from "./base.service";
-import { User } from "@/types/user.type";
+import { CreateUser, User } from "@/types/user.type";
 
 export interface UpdateUserProfileRequest {
   firstName?: string;
@@ -19,6 +19,13 @@ export const UserService = {
     });
   },
 
+  createUser: async (data: CreateUser) => {
+    return BaseService.post({
+      url: "/user",
+      payload: data,
+    });
+  },
+
   updateUserProfile: async (data: UpdateUserProfileRequest) => {
     return BaseService.put({
       url: "/user/profile",
@@ -28,8 +35,8 @@ export const UserService = {
 
   uploadAvatar: async (file: File) => {
     const formData = new FormData();
-    formData.append('avatar', file);
-    
+    formData.append("avatar", file);
+
     return BaseService.post({
       url: "/user/upload-avatar",
       payload: formData,

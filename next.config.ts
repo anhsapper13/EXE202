@@ -11,6 +11,7 @@ const nextConfig = {
       "bf1af2.a-cdn.akinoncloud.com",
       "homepage.momocdn.net",
       "images.pexels.com",
+      "placeholder.com"
     ],
     remotePatterns: [
       {
@@ -85,6 +86,13 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "cdn.pixabay.com",
+        port: "",
+        pathname: "/**",
+      },
+     
+      {
+        protocol: "https",
+        hostname: "placeholder.com",
         port: "",
         pathname: "/**",
       },

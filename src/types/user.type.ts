@@ -26,3 +26,16 @@ export interface User {
   isDeleted?: boolean;
   password?: string;
 }
+export interface CreateUser{
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  role: Role;
+  companyName?: string;
+  age?: string;
+  address?: string;
+  description?: string;
+  avatar?: string;
+  password: string;
+}
