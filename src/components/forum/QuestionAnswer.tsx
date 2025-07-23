@@ -177,6 +177,8 @@ const QuestionAnswer: React.FC<QuestionAnswerProps> = (props) => {
           src={user?.profilePic || "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg"}
           alt={user?.name}
           className="w-12 h-12 rounded-md object-cover border border-gray-300"
+          width={48}
+          height={48}
         />
         <div>
           <p className="font-medium text-blue-700">{user?.name}</p>

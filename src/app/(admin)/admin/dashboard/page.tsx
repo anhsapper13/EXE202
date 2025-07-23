@@ -594,9 +594,9 @@ const AnalyticsPage: React.FC = () => {
                 <Progress
                   percent={
                     analyticsData.totalBookings > 0
-                      ? (analyticsData.completedBookings /
+                      ? Number(((analyticsData.completedBookings /
                           analyticsData.totalBookings) *
-                        100
+                        100).toFixed(1))
                       : 0
                   }
                   strokeColor="#1890ff"

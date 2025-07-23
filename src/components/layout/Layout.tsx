@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React from "react";
 import { usePathname } from "next/navigation";
@@ -12,9 +12,14 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
   const pathname = usePathname();
 
-
-  const hideFooter = pathname.includes('/user/account');
-  const hideHeader = pathname.includes('/user/account/course-enrolment');
+  const hideFooter =
+    pathname.includes("/user/profile") ||
+    pathname.includes("/service-provider") ||
+    pathname.includes("/admin");
+  const hideHeader =
+    pathname.includes("/user/profile") ||
+    pathname.includes("/service-provider") ||
+    pathname.includes("/admin");
 
   return (
     <div className="">

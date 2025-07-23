@@ -17,7 +17,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
       <Card className="h-full flex overflow-hidden border-transparent hover:border-gray-200 transition-colors">
         <div className="relative w-[40%] bg-gray-100">
           <Image
-            src={`${API_URL}${service?.image}`}
+            src={
+              service?.image
+                ? `${API_URL}${service.image}`
+                : "/default-service.jpg" 
+            }
             alt="Pet photo"
             className="object-cover w-full h-52"
             fill

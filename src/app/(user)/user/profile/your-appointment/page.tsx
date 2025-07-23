@@ -339,7 +339,7 @@ const Booking: React.FC = () => {
                   <Eye className="h-5 w-5" />
                 </button>
 
-                {booking.status === "pending" && (
+                {/* {booking.status === "pending" && (
                   <>
                     <button
                       className="p-2 rounded-full text-green-500 hover:bg-green-100 transition-colors"
@@ -366,7 +366,7 @@ const Booking: React.FC = () => {
                       <XCircle className="h-5 w-5" />
                     </button>
                   </>
-                )}
+                )} */}
 
 
                 <button
@@ -435,7 +435,6 @@ const Booking: React.FC = () => {
             <AntTitle level={4} className="!mb-0">
               Booking Details
             </AntTitle>
-
             {detailBooking && (
               <div>
                 <Tag

@@ -50,9 +50,9 @@ const Sidebar = () => {
   ];
 
   const sideBarCustomer = [
-    { key: "/profile/dashboard", icon: <BaiduOutlined />, label: <Link href="/profile/dashboard">Dashboard</Link> },
-    { key: "/profile/order-history", icon: <AppstoreOutlined />, label: <Link href="/profile/order-history">Order History</Link> },
-    { key: "/profile/your-appointment", icon: <FieldTimeOutlined />, label: <Link href="/profile/your-appointment">Your Appointment</Link> },
+    { key: "/user/profile/dashboard", icon: <BaiduOutlined />, label: <Link href="/user/profile/dashboard">Dashboard</Link> },
+    { key: "/user/profile/order-history", icon: <AppstoreOutlined />, label: <Link href="/user/profile/order-history">Order History</Link> },
+    { key: "/user/profile/your-appointment", icon: <FieldTimeOutlined />, label: <Link href="/user/profile/your-appointment">Your Appointment</Link> },
   ];
 
   const getSidebarItems = (role: Role) => {
@@ -92,7 +92,7 @@ const Sidebar = () => {
           borderRight: 0,
         }}
       />
-      {/* <Button
+      <Button
         icon={<LogoutOutlined />}
         type="link"
         danger
@@ -103,7 +103,7 @@ const Sidebar = () => {
         onClick={handleLogout}
       >
         Log out
-      </Button> */}
+      </Button>
     </Layout.Sider>
   );
 };

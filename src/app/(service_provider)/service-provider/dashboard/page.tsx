@@ -380,7 +380,7 @@ const AnalyticsPage: React.FC = () => {
       <div className="mb-6">
         <Title level={2}>📊 Analytics Dashboard</Title>
         <Text type="secondary">
-          Tổng quan về hiệu suất kinh doanh và các chỉ số quan trọng
+          Tổng quan về hiệu suất kinh doanh và các chỉ số quan trọng trong 1 tháng
         </Text>
       </div>
 
@@ -644,9 +644,9 @@ const AnalyticsPage: React.FC = () => {
                 <Progress
                   percent={
                     analyticsData.totalBookings > 0
-                      ? (analyticsData.completedBookings /
+                      ? Number(((analyticsData.completedBookings /
                           analyticsData.totalBookings) *
-                        100
+                        100).toFixed(1))
                       : 0
                   }
                   strokeColor="#1890ff"

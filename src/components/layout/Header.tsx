@@ -110,15 +110,17 @@ const Header: React.FC = () => {
             />
           </button>
 
-          <Link
-            href="/profile"
-            className={`group flex flex-col items-center text-foreground transition-all duration-200 ${theme.animations ? "hover:scale-105" : ""}`}
-          >
-            <UserIcon className="h-6 w-6 text-foreground group-hover:text-secondary" />
-            <span className="text-sm text-foreground group-hover:text-secondary hidden lg:block">
-              Profile
-            </span>
-          </Link>
+          {isAuthenticated && (
+            <Link
+              href="/user/profile"
+              className={`group flex flex-col items-center text-foreground transition-all duration-200 ${theme.animations ? "hover:scale-105" : ""}`}
+            >
+              <UserIcon className="h-6 w-6 text-foreground group-hover:text-secondary" />
+              <span className="text-sm text-foreground group-hover:text-secondary hidden lg:block">
+                Profile
+              </span>
+            </Link>
+          )}
 
           <Link
             href="/cart"
