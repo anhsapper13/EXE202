@@ -45,10 +45,9 @@ export default function CheckoutWrapper() {
       }
     };
 
-    if (cartId) {
       fetchTotalPrice();
-    }
-  }, [cartId]);
+    
+  }, []);
 
   const onCreateOrder = async (
     address: string,
@@ -122,7 +121,7 @@ export default function CheckoutWrapper() {
 
   useEffect(() => {
     fetchCartItems();
-  }, [fetchCartItems]);
+  }, []);
 
   const BreadCrumbList: BreadcrumbItem[] = [
     { label: "Home", href: "/" },

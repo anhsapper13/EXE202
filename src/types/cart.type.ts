@@ -9,3 +9,7 @@ export interface ICart {
   user?: User;
   cartItems?: ICartItem[];
 }
+export interface AddToCartPayload {
+  product_id: string;
+  quantity: number;
+}

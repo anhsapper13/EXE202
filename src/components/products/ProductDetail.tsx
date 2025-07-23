@@ -1,13 +1,23 @@
 "use client";
 import ProductService from "@/services/product.service";
 import { IProduct } from "@/types/product.interface";
-import { ArrowPathIcon, CheckIcon, ChevronLeftIcon, ClipboardIcon, ShareIcon, TruckIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowPathIcon,
+  CheckIcon,
+  ChevronLeftIcon,
+  ClipboardIcon,
+  ShareIcon,
+  TruckIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import Loading from "../common/Loading";
 import RelevantProducts from "./RelevantProducts";
+import { CartService } from "@/services/cart.service";
+import { openNotificationWithIcon } from "@/ultils/notification";
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams();
@@ -16,14 +26,21 @@ const ProductDetail: React.FC = () => {
   const [quantity, setQuantity] = React.useState<number>(1);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string | null>(null);
-  const [isShareModalOpen, setIsShareModalOpen] = React.useState<boolean>(false);
+  const [isShareModalOpen, setIsShareModalOpen] =
+    React.useState<boolean>(false);
   const [isCopied, setIsCopied] = React.useState<boolean>(false);
-  const [modalPosition, setModalPosition] = React.useState<{ top: number; right: number }>({ top: 0, right: 0 });
+  const [modalPosition, setModalPosition] = React.useState<{
+    top: number;
+    right: number;
+  }>({ top: 0, right: 0 });
   const shareButtonRef = React.useRef<HTMLButtonElement>(null);
   const modalRef = React.useRef<HTMLDivElement>(null);
 
   // Construct the current page URL
-  const currentUrl = typeof window !== "undefined" ? `${window.location.origin}/products/${id}` : "";
+  const currentUrl =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/products/${id}`
+      : "";
 
   // Fetch product details on mount
   React.useEffect(() => {
@@ -37,7 +54,7 @@ const ProductDetail: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const response= await ProductService.getProductById(id);
+        const response = await ProductService.getProductById(id);
         if (!response.data) {
           throw new Error("Product data not found");
         }
@@ -67,7 +84,11 @@ const ProductDetail: React.FC = () => {
   // Handle click outside to close modal
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (isShareModalOpen && modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      if (
+        isShareModalOpen &&
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
         setIsShareModalOpen(false);
         setIsCopied(false);
       }
@@ -79,17 +100,32 @@ const ProductDetail: React.FC = () => {
   const handleQuantityChange = (delta: number) => {
     setQuantity((prev) => {
       const newQuantity = prev + delta;
-      return newQuantity >= 1 && newQuantity <= (product?.stockQuantity || 1) ? newQuantity : prev;
+      return newQuantity >= 1 && newQuantity <= (product?.stockQuantity || 1)
+        ? newQuantity
+        : prev;
     });
   };
 
-  const handleAddToCart = () => {
-    console.log(`Added ${quantity} of ${product?.name} to cart`);
+  const handleAddToCart = async () => {
+    try {
+      await CartService.addToCart({
+        product_id: id as string,
+        quantity,
+      });
+      openNotificationWithIcon(
+        "success",
+        "Success",
+        "Product added to cart successfully!"
+      );
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      setError("Failed to add product to cart");
+      return;
+    }
   };
 
   const handleBuyNow = () => {
     console.log(`Buying ${quantity} of ${product?.name} now`);
-    
   };
 
   const handleCopyUrl = async () => {
@@ -118,7 +154,9 @@ const ProductDetail: React.FC = () => {
   if (error || !product) {
     return (
       <div className="bg-tertiary text-white shadow-md p-6 rounded-xl text-center max-w-3xl mx-auto mt-8">
-        <p className="text-lg font-medium text-white">{error || "Product not found"}</p>
+        <p className="text-lg font-medium text-white">
+          {error || "Product not found"}
+        </p>
         <button
           onClick={() => router.push("/products")}
           className="mt-4 inline-flex items-center bg-secondary text-white hover:bg-foreground hover:text-background transition-all duration-300 rounded-lg px-4 py-2 text-base font-medium cursor-pointer"
@@ -134,7 +172,10 @@ const ProductDetail: React.FC = () => {
     <div className="max-w-6xl mx-auto p-4 sm:p-6 mt-8">
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-        <Link href="/products" className="hover:text-secondary transition-colors">
+        <Link
+          href="/products"
+          className="hover:text-secondary transition-colors"
+        >
           Products
         </Link>
         <span className="mx-2">/</span>
@@ -156,7 +197,9 @@ const ProductDetail: React.FC = () => {
         {/* Product Details */}
         <div className="bg-tertiary shadow-md rounded-xl p-6 sm:p-8 flex flex-col justify-between gap-6">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">{product.name}</h1>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+              {product.name}
+            </h1>
             <button
               ref={shareButtonRef}
               onClick={toggleShareModal}
@@ -173,9 +216,7 @@ const ProductDetail: React.FC = () => {
             <p className="text-sm">
               Status: {product.stockQuantity > 0 ? "Available" : "Out of stock"}
             </p>
-            <p className="text-sm">
-              In stock: {product.stockQuantity}
-            </p>
+            <p className="text-sm">In stock: {product.stockQuantity}</p>
           </div>
           <p className="text-xl sm:text-2xl text-secondary font-semibold">
             {parseFloat(product.price as string).toFixed(2)} ₫
@@ -188,9 +229,7 @@ const ProductDetail: React.FC = () => {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <TruckIcon className="h-5 w-5 text-white" />
-              <p className="text-sm text-white">
-                Free Delivery
-              </p>
+              <p className="text-sm text-white">Free Delivery</p>
             </div>
             <div className="flex items-center gap-2">
               <ArrowPathIcon className="h-5 w-5 text-white" />
@@ -200,7 +239,10 @@ const ProductDetail: React.FC = () => {
 
           {/* Quantity Selector */}
           <div className="flex items-center gap-4">
-            <label htmlFor="quantity" className="text-base font-medium text-white">
+            <label
+              htmlFor="quantity"
+              className="text-base font-medium text-white"
+            >
               Quantity:
             </label>
             <div className="flex items-center border border-gray-300 rounded-lg">
@@ -239,7 +281,9 @@ const ProductDetail: React.FC = () => {
             <button
               onClick={handleAddToCart}
               className={`flex-1/2 flex justify-center gap-3 w-full sm:w-auto bg-secondary text-white hover:bg-foreground hover:text-background transition-all duration-300 rounded-lg px-6 py-3 text-base font-medium cursor-pointer ${
-                product.stockQuantity === 0 ? "opacity-50 cursor-not-allowed" : ""
+                product.stockQuantity === 0
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
               }`}
               disabled={product.stockQuantity === 0}
             >
@@ -262,7 +306,9 @@ const ProductDetail: React.FC = () => {
             <button
               onClick={handleBuyNow}
               className={`flex-1/2 flex justify-center gap-3 w-full sm:w-auto bg-primary text-white border-1 hover:bg-foreground hover:text-background transition-all duration-300 rounded-lg px-6 py-3 text-base font-medium cursor-pointer ${
-                product.stockQuantity === 0 ? "opacity-50 cursor-not-allowed" : ""
+                product.stockQuantity === 0
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
               }`}
               disabled={product.stockQuantity === 0}
             >
@@ -311,11 +357,16 @@ const ProductDetail: React.FC = () => {
           <div
             ref={modalRef}
             className="absolute bg-tertiary rounded-lg p-6 w-full max-w-md border border-foreground"
-            style={{ top: `${modalPosition.top}px`, right: `${modalPosition.right}px` }}
+            style={{
+              top: `${modalPosition.top}px`,
+              right: `${modalPosition.right}px`,
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-medium text-white">Copy this URL to clipboard</h2>
+              <h2 className="text-lg font-medium text-white">
+                Copy this URL to clipboard
+              </h2>
               <button
                 onClick={toggleShareModal}
                 className="p-1 text-white hover:text-secondary transition-all duration-300 cursor-pointer"
@@ -335,7 +386,11 @@ const ProductDetail: React.FC = () => {
                 className="p-2 bg-secondary text-white hover:bg-foreground hover:text-background transition-all duration-300 rounded-lg cursor-pointer"
                 title={isCopied ? "Copied!" : "Copy URL"}
               >
-                {isCopied ? <CheckIcon className="h-5 w-5" /> : <ClipboardIcon className="h-5 w-5" />}
+                {isCopied ? (
+                  <CheckIcon className="h-5 w-5" />
+                ) : (
+                  <ClipboardIcon className="h-5 w-5" />
+                )}
               </button>
             </div>
           </div>

@@ -106,7 +106,7 @@ export default function CartItem({
           src={image}
           alt={`${name} product image`}
           className="w-full h-40 object-cover rounded-md"
-          width={300}
+          width={250}
           height={160}
         />
       </div>
@@ -125,7 +125,7 @@ export default function CartItem({
 
         <div className="mt-1 flex justify-between items-start">
           <span className="text-lg font-bold text-orange-600">
-            ${price.toFixed(2)}
+            {price.toFixed(0)} VND
           </span>
           <span className="text-sm text-gray-500 hidden sm:block">
             In stock: {totalQuantity}
