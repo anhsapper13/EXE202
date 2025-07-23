@@ -2,6 +2,7 @@
 import { Button, Form, FormProps, Input, Select, message } from "antd";
 import React from "react";
 import TinyMCEEditor from "../../ui/TinyMCEEditor";
+import ForumService from "@/services/forum.service";
 
 type CreateTopicType = {
   title: string;
@@ -19,6 +20,13 @@ const CreateTopic: React.FC<CreateTopicProps> = ({ onSuccess }) => {
   const onFinish: FormProps<CreateTopicType>["onFinish"] = async (values) => {
     try {
       console.log("Form values:", values);
+
+      const result = await ForumService.addPost({
+        title: values.title,
+        body: values.body,
+        tag: values.tag,
+      });
+
       message.success("Topic created successfully!");
       form.resetFields();
       if (onSuccess) {
@@ -65,10 +73,11 @@ const CreateTopic: React.FC<CreateTopicProps> = ({ onSuccess }) => {
             message: "Please enter the content of your discussion",
           },
         ]}
+        getValueFromEvent={(content) => content}
       >
         <TinyMCEEditor
           placeholder="Write your discussion content here..."
-          onChange={(value) => handleEditorChange(value, "body")}
+          // Không cần onChange ở đây nữa
           height={300}
           disabled={false}
         />

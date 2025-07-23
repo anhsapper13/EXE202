@@ -8,34 +8,31 @@ import { Button } from "@/components/ui/Button";
 import Dividers from "@/components/ui/Dividers";
 import TinyMCEEditor from "@/components/ui/TinyMCEEditor";
 import { ArrowLeft, Share2Icon } from "lucide-react";
+import ForumService from "@/services/forum.service";
+import { defaultSWRConfig } from "@/config/swr-config";
+import useSWR from "swr";
+import { IPost } from "@/types/post.interface";
 
+const questionDetailsFetcher = async (id: string) => {
+  const response = await ForumService.getPostById(id);
+  return response.data;
+};
 
 const QuestionDetailPage = () => {
   const { id } = useParams();
   const router = useRouter();
 
-  // Mock question data - In a real app, you'd fetch this based on the id
-  const questionData = {
-    type: "question" as const,
-    question:
-      "How to install pip packages via --no-build-isolation when they are mentioned in requirements.txt?",
-    tags: ["python", "pip", "requirements.txt", "build-isolation"],
-    user: {
-      name: "PythonDev",
-      profilePic: "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg",
-      role: "Developer",
-      joinDate: "March 2018",
-      reputation: 3240,
-    },
-    votes: 30,
-    date: "5 years ago",
-    views: 7000,
-    answers: 2,
-
-    isAnswered: true,
-    isUpvoted: false,
-    isDownvoted: false,
-  };
+  const { data, error, isLoading } = useSWR(
+    id ? `/forum/question/${id}` : null, // chỉ fetch khi có id
+    () => questionDetailsFetcher(id as string),
+    {
+      ...defaultSWRConfig,
+      revalidateOnFocus: false,
+      dedupingInterval: 0,
+    }
+  );
+  const questionData = data?.data;
+  console.log("Question Data:", questionData);
 
   const relatedQuestions = [
     "How to install Python packages without using pip?",
@@ -54,7 +51,8 @@ const QuestionDetailPage = () => {
         "You can use xargs to read each line from requirements.txt and pass it to pip with the desired flags:\n\n```bash\ncat requirements.txt | xargs -n 1 pip install --no-build-isolation\n```\n\nThis will run pip install for each package individually with the --no-build-isolation flag.",
       user: {
         name: "TechHelper",
-        profilePic: "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg",
+        profilePic:
+          "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg",
         role: "Python Expert",
         joinDate: "Jan 2019",
         reputation: 15420,
@@ -73,7 +71,8 @@ const QuestionDetailPage = () => {
         "You can use xargs to read each line from requirements.txt and pass it to pip with the desired flags:\n\n```bash\ncat requirements.txt | xargs -n 1 pip install --no-build-isolation\n```\n\nThis will run pip install for each package individually with the --no-build-isolation flag.",
       user: {
         name: "TechHelper",
-        profilePic: "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg",
+        profilePic:
+          "https://images.pexels.com/photos/669502/pexels-photo-669502.jpeg?cs=srgb&dl=pexels-goumbik-669502.jpg&fm=jpg",
         role: "Python Expert",
         joinDate: "Jan 2019",
         reputation: 15420,
@@ -107,7 +106,7 @@ const QuestionDetailPage = () => {
         {/* Navigation and Actions Bar */}
         <div className="flex justify-between items-center mb-6">
           <Button
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            className="flex items-center gap-2 text-white "
             onClick={handleBack}
           >
             <ArrowLeft size={18} />
@@ -117,7 +116,9 @@ const QuestionDetailPage = () => {
 
         {/* Main Question Component */}
         <div className="bg-white shadow-sm border border-gray-200 mb-6">
-          <QuestionAnswer {...questionData} />
+          {isLoading && <div>Loading...</div>}
+          {error && <div>Something went wrong!</div>}
+          {questionData && <QuestionAnswer question={questionData} />}
         </div>
 
         <div className="flex justify-between items-center p-4mb-6">
@@ -125,7 +126,7 @@ const QuestionDetailPage = () => {
           <div className="flex justify-between items-center p-4">
             <div className="flex items-center gap-2">
               <h3 className="text-lg font-semibold text-gray-700">
-                {answerData.length} Answers
+                {questionData?.comments?.length} Answers
               </h3>
             </div>
           </div>
@@ -134,8 +135,6 @@ const QuestionDetailPage = () => {
             <Button
               className="bg-[#2F1667] hover:bg-[#816ab4] hover:cursor-pointer text-white px-4 py-2 rounded-md"
               onClick={() => console.log("reply")}
-            
-             
             >
               <Share2Icon size={16} className="mr-2" />
               Reply
@@ -145,14 +144,14 @@ const QuestionDetailPage = () => {
 
         {/* Example of how to use the Answer component separately */}
         {/* In a real app, you would map through actual answers */}
-        <div className="bg-white shadow-sm border border-gray-200 ">
+        {/* <div className="bg-white shadow-sm border border-gray-200 ">
           {answerData.map((answer) => (
             <div key={answer.id}>
               <QuestionAnswer {...answer} />
               <Dividers />
             </div>
           ))}
-        </div>
+        </div> */}
         {/* Add Answer section */}
         <div className="mt-12">
           <h3 className="text-xl text-gray-700 mb-4">Your Answer</h3>

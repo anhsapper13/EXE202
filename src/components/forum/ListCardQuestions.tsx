@@ -1,8 +1,9 @@
 import React from "react";
 import CardQuestion, { CardQuestionProps } from "./CardQuestion";
+import { IPost } from "@/types/post.interface";
 
 interface ListCardQuestionsProps {
-  questions: CardQuestionProps[];
+  questions: IPost[];
 }
 
 const ListCardQuestions: React.FC<ListCardQuestionsProps> = ({ questions }) => {
@@ -11,17 +12,7 @@ const ListCardQuestions: React.FC<ListCardQuestionsProps> = ({ questions }) => {
       <div>
         {questions.map((question, index) => (
           <div key={index} className="mb-4">
-            <CardQuestion
-              ques_id={question.ques_id}
-              sender={question.sender}
-              sender_avatar={question.sender_avatar}
-              date={question.date}
-              title={question.title}
-              question={question.question}
-              tags={question.tags}
-              view_number={question.view_number}
-              answer_number={question.answer_number}
-            />
+            <CardQuestion data={question} />
           </div>
         ))}
       </div>

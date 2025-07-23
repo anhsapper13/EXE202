@@ -4,21 +4,21 @@ import { IPost } from "@/types/post.interface";
 import { ApiResponse } from "@/types/request-response.interface";
 
 const ForumService = {
-  getAllPosts: async (params: PaginationParams): Promise<ApiResponse<PaginatedResponse<IPost>>> => {
+  getAllPosts: async (params: PaginationParams) => {
     return BaseService.get({
-      url: "/posts",
+      url: "/forum-posts",
       payload: params,
     });
   },
   
-  getPostById: async (postId: string): Promise<ApiResponse<IPost>> => {
+  getPostById: async (postId: string) => {
     return BaseService.get<IPost>({
-      url: `/posts/${postId}`,
+      url: `/forum-posts/${postId}`,
     });
   },
   addPost: async (payload: any) => {
     return BaseService.post<IPost>({
-      url: "/posts",
+      url: "/forum-posts",
       payload,
     });
   },

@@ -50,7 +50,6 @@ const Sidebar = () => {
   ];
 
   const sideBarCustomer = [
-    { key: "/user/profile/dashboard", icon: <BaiduOutlined />, label: <Link href="/user/profile/dashboard">Dashboard</Link> },
     { key: "/user/profile/order-history", icon: <AppstoreOutlined />, label: <Link href="/user/profile/order-history">Order History</Link> },
     { key: "/user/profile/your-appointment", icon: <FieldTimeOutlined />, label: <Link href="/user/profile/your-appointment">Your Appointment</Link> },
   ];
@@ -85,7 +84,7 @@ const Sidebar = () => {
       <Menu
         mode="inline"
         selectedKeys={[normalizedPath]}
-        defaultSelectedKeys={["/profile/dashboard"]}
+        // defaultSelectedKeys={["/profile/dashboard"]}
         items={getSidebarItems(role as Role)}
         style={{
           flex: 1,

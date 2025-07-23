@@ -17,7 +17,7 @@ const QuestionFilters: React.FC<QuestionFiltersProps> = ({
   return (
     <div className="flex flex-col space-y-4 my-6">
       <div className="flex flex-wrap gap-1 justify-between border-b border-gray-200 pb-2">
-        <div className="flex gap-1">
+        {/* <div className="flex gap-1">
           <FilterButton
             active={activeFilter === "newest"}
             onClick={() => onFilterChange("newest")}
@@ -46,7 +46,7 @@ const QuestionFilters: React.FC<QuestionFiltersProps> = ({
             <MessageSquare size={16} className="mr-1" />
             Unanswered {questionCount > 0 ? `(${questionCount})` : ""}
           </FilterButton>
-        </div>
+        </div> */}
 
         <div className="flex  justify-between mt-4">
           <button className="flex gap-1.5 px-4 py-2 bg-[#2F1667] hover:bg-[#2F1667] text-white rounded-md text-sm transition-colors">

@@ -12,14 +12,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 // import { CardQuestionProps } from "@/components/forum/CardQuestion";
 import ListCardQuestions from "@/components/forum/ListCardQuestions";
-import QuestionFilters, {
-  FilterType,
-} from "@/components/forum/FilterQuestion";
+import QuestionFilters, { FilterType } from "@/components/forum/FilterQuestion";
 import HotDiscussions from "@/components/forum/HotDiscussions";
 import TopMembers from "@/components/forum/TopMembers";
 import StartDiscussion from "@/components/forum/create-discussion/StartDiscussion";
 // import ChatWidget from "@/components/forum/ChatWidget";
 import { listQuestions } from "./listQuestions";
+import ForumService from "@/services/forum.service";
+import useSWR from "swr";
+import { defaultSWRConfig } from "@/config/swr-config";
+import PaginationCustom from "@/components/common/PaginationCustom";
+import { IPost } from "@/types/post.interface";
 
 const listCard = [
   {
@@ -62,24 +65,48 @@ const listCard = [
   },
 ];
 
+const PAGE_SIZE_DEFAULT = 6;
+const forumFetcher = async ([url, page, limit, searchParams]: [
+  string,
+  number,
+  number,
+  any,
+]) => {
+  const params = {
+    page,
+    limit,
+    ...searchParams,
+  };
+  console.log(url, page, limit, searchParams);
+
+  const res = await ForumService.getAllPosts(params);
+  return res.data;
+};
 const MainForum = () => {
   const [activeFilter, setActiveFilter] = useState<FilterType>("newest");
-  
-  const filteredQuestions = useMemo(() => {
-    switch (activeFilter) {
-      case "hot":
-        return [...listQuestions].sort((a, b) => b.view_number - a.view_number);
-      //   case "votes":
-      //     return [...listQuestions].sort(
-      //       (a, b) => (b.votes || 0) - (a.votes || 0)
-      //     );
-      case "unanswered":
-        return listQuestions.filter((q) => q.answer_number === 0);
-      case "newest":
-      default:
-        return listQuestions; // Already sorted by date
+
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = useState(PAGE_SIZE_DEFAULT);
+  const [searchParams] = useState<any>({});
+
+  const { data, error, isLoading } = useSWR(
+    ["services", page, pageSize, searchParams],
+    forumFetcher,
+    {
+      ...defaultSWRConfig,
+      revalidateOnFocus: false,
+      dedupingInterval: 0,
     }
-  }, [activeFilter]);
+  );
+  const handlePageChange = (newPage: number, newPageSize: number) => {
+    setPage(newPage);
+    setPageSize(newPageSize);
+  };
+  const questionList: IPost[] = data?.data?.data || [];
+  console.log("questionList", questionList);
+  
+  const total = data?.data?.total || 0;
+
   return (
     <div>
       <HeaderForum />
@@ -104,45 +131,17 @@ const MainForum = () => {
             <QuestionFilters
               activeFilter={activeFilter}
               onFilterChange={setActiveFilter}
-              questionCount={filteredQuestions.length}
+              questionCount={questionList.length}
             />
-            <ListCardQuestions questions={filteredQuestions} />
+            <ListCardQuestions questions={questionList} />
 
             {/* Pagination */}
-            <div className="flex justify-center mt-6">
-              <div className="flex space-x-1">
-                <a
-                  href="#"
-                  className="px-4 py-2 bg-white rounded-md hover:bg-gray-100"
-                >
-                  1
-                </a>
-                <a
-                  href="#"
-                  className="px-4 py-2 bg-white rounded-md hover:bg-gray-100"
-                >
-                  2
-                </a>
-                <a
-                  href="#"
-                  className="px-4 py-2 bg-[#2F1667] text-white rounded-md"
-                >
-                  3
-                </a>
-                <a
-                  href="#"
-                  className="px-4 py-2 bg-white rounded-md hover:bg-gray-100"
-                >
-                  4
-                </a>
-                <a
-                  href="#"
-                  className="px-4 py-2 bg-white rounded-md hover:bg-gray-100"
-                >
-                  5
-                </a>
-              </div>
-            </div>
+            <PaginationCustom
+              totalItems={total}
+              pageSize={pageSize}
+              currentPage={page}
+              onPageChange={handlePageChange}
+            />
           </div>
 
           <div className="w-full lg:w-1/3 space-y-4">
