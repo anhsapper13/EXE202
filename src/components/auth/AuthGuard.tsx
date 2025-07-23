@@ -22,6 +22,8 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children, allowedRoles }) => {
 
   useEffect(() => {
     const isPublicRoute = [
+      "/",
+      "/home",
       "/login",
       "/register",
       "/unauthorized",
