@@ -132,7 +132,7 @@ const Header: React.FC = () => {
             </span>
           </Link>
 
-          {isAuthenticated && (
+          {isAuthenticated ? (
             <Button
               onClick={() => {
                 dispatch(clearUser());
@@ -143,6 +143,17 @@ const Header: React.FC = () => {
             >
               <span className="text-sm  group-hover:text-secondary hidden lg:block">
                 Log Out
+              </span>
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                router.push("/login");
+              }}
+              className={`group flex flex-col items-center transition-all duration-200 ${theme.animations ? "hover:scale-105" : ""}`}
+            >
+              <span className="text-sm  group-hover:text-secondary hidden lg:block">
+                Login
               </span>
             </Button>
           )}
