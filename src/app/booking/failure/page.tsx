@@ -106,7 +106,7 @@ const PaymentFailurePage = () => {
                   className="w-full"
                 >
                   <Home className="w-4 h-4 mr-2" />
-                  Back to Home
+                  Back to Home Page
                 </Button>
               </div>
             </CardContent>
