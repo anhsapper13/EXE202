@@ -123,11 +123,11 @@ export default function PaymentMethod({
           </div>
           <div className="flex justify-between text-sm text-gray-700">
             <span>Thuế</span>
-            <span className="font-medium">$0.00</span>
+            <span className="font-medium">0.00đ</span>
           </div>
           <div className="flex justify-between text-sm text-gray-700">
             <span>Phí vận chuyển</span>
-            <span className="font-medium">$0.00</span>
+            <span className="font-medium">0.00đ</span>
           </div>
           <div className="flex justify-between text-lg font-bold text-gray-800 border-t pt-3">
             <span>Tổng cộng</span>
@@ -136,7 +136,7 @@ export default function PaymentMethod({
         </div>
         <button
           className={`w-full mt-5 px-6 py-3 rounded-full text-white font-medium transition-all duration-200 ${
-            totalPrice === "$0.00" ||
+            totalPrice === "0.00đ" ||
             !method ||
             !diachi ||
             !tinh ||
@@ -146,7 +146,7 @@ export default function PaymentMethod({
               : "bg-orange-500 hover:bg-orange-600 cursor-pointer"
           }`}
           disabled={
-            totalPrice === "$0.00" ||
+            totalPrice === "0.00đ" ||
             !method ||
             !diachi ||
             !tinh ||

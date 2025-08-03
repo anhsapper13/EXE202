@@ -9,7 +9,7 @@ export default function MomoPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { cartId } = useParams(); // Destructure cartId from useParams
-  const [totalPrice, setTotalPrice] = useState<string>("$0.00");
+  const [totalPrice, setTotalPrice] = useState<string>("0.00đ");
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
   const router = useRouter();
 
@@ -17,10 +17,12 @@ export default function MomoPage() {
     const fetchTotalPrice = async () => {
       try {
         setLoading(true);
-        const response = await CartItemService.getCartItemsPrice(cartId as string);
+        const response = await CartItemService.getCartItemsPrice(
+          cartId as string
+        );
 
         if (response.data) {
-          setTotalPrice(`$${response.data.data.toFixed(2)}`);
+          setTotalPrice(`${response.data.data.toFixed(2)}đ`);
         } else {
           setError("Failed to fetch total price");
         }
@@ -50,7 +52,7 @@ export default function MomoPage() {
     }
   }, [timeLeft, router]);
 
-  const formatTime = (seconds : number) => {
+  const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
