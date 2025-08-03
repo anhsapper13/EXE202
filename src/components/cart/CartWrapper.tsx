@@ -13,7 +13,7 @@ import { ICartItem } from "@/types/cart-item.type";
 export default function CartWrapper() {
   const [cartItems, setCartItems] = useState<ICartItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [totalPrice, setTotalPrice] = useState<string>("$0.00");
+  const [totalPrice, setTotalPrice] = useState<string>("0.00đ");
   const [error, setError] = useState<string | null>(null);
   const [cartId, setCartId] = useState("");
   const [pagination, setPagination] = useState({
@@ -64,14 +64,13 @@ export default function CartWrapper() {
         const response = await CartItemService.getCartItemsPrice(cartId);
 
         if (response.data) {
-          setTotalPrice(`$${response.data.data.toFixed(2)}`);
+          setTotalPrice(`${response.data.data.toFixed(2)}đ`);
         } else {
           setError("Failed to fetch total price");
         }
       } catch (err) {
         setError("Error fetching cart total");
         console.log("Error fetching cart total:", err);
-        
       } finally {
         setLoading(false);
       }

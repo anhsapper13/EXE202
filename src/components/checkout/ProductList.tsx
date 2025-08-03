@@ -56,16 +56,16 @@ export default function ProductList({ items }: { items: ICartItem[] }) {
                   <td className="px-6 py-4">{item.quantity}</td>
                   <td className="px-6 py-4 hidden sm:table-cell">
                     {parseFloat(item.product?.price as string).toLocaleString(
-                      "en-US",
-                      { style: "currency", currency: "USD" }
+                      "vi-VN",
+                      { style: "currency", currency: "VND" }
                     )}
                   </td>
                   <td className="px-6 py-4">
                     {(
                       parseFloat(item.product?.price as string) * item.quantity
-                    ).toLocaleString("en-US", {
+                    ).toLocaleString("vi-VN", {
                       style: "currency",
-                      currency: "USD",
+                      currency: "VND",
                     })}
                   </td>
                 </tr>

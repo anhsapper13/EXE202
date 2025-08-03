@@ -18,7 +18,7 @@ export default function CheckoutWrapper() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [cartId, setCartId] = useState("");
-  const [totalPrice, setTotalPrice] = useState<string>("$0.00");
+  const [totalPrice, setTotalPrice] = useState<string>("0.00đ");
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 5,
@@ -32,22 +32,22 @@ export default function CheckoutWrapper() {
         const response = await CartItemService.getCartItemsPrice(cartId);
 
         if (response.data) {
-          setTotalPrice(`$${response.data.data.toFixed(2)}`);
+          setTotalPrice(`${response.data.data.toFixed(2)}đ`);
         } else {
           setError("Failed to fetch total price");
         }
       } catch (err) {
         setError("Error fetching cart total");
         console.log("Error fetching cart total:", err);
-        
       } finally {
         setLoading(false);
       }
     };
 
+    if (cartId) {
       fetchTotalPrice();
-    
-  }, []);
+    }
+  }, [cartId]);
 
   const onCreateOrder = async (
     address: string,
@@ -69,14 +69,11 @@ export default function CheckoutWrapper() {
             order_type,
           });
           console.log("Order Response:", response);
-          
+
           toast.success("Đặt hàng thành công");
         } catch (error) {
-          toast.error(
-          "Đặt hàng thất bại"
-          );
+          toast.error("Đặt hàng thất bại");
           console.log("Order Error:", error);
-          
         }
         setTimeout(() => {
           redirect("/");

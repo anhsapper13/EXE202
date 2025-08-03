@@ -14,11 +14,11 @@ export default function Checkout({ totalPrice }: { totalPrice: string }) {
         <Link href="/checkout">
           <button
             className={`px-15 py-3 my-5 rounded-3xl text-white ${
-              totalPrice === "$0.00"
+              totalPrice === "0.00đ"
                 ? "bg-orange-300 opacity-50 cursor-not-allowed"
                 : "bg-orange-500 hover:bg-orange-600 cursor-pointer"
             }`}
-            disabled={totalPrice === "$0.00"}
+            disabled={totalPrice === "0.00đ"}
           >
             Checkout
           </button>
